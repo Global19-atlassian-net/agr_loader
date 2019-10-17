@@ -1,6 +1,3 @@
-schemaVersion:
-  regex: ^(\d(\.\d){3})$
-  required: True
 releaseVersion: 
   regex: ^(\d(\.\d){2})$
   required: True

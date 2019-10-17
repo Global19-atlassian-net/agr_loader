@@ -82,7 +82,7 @@ class DataFileManager(metaclass=Singleton):
         # The smaller SubTypeConfig objects are created in the DataTypeConfig functions, see data_type_config.py.
         
         for config_entry in self.transformed_submission_system_data.keys():
-            # Skip string entries (e.g. schemaVersion, releaseVersion).
+            # Skip string entries (e.g. releaseVersion).
             if isinstance(self.transformed_submission_system_data[config_entry], str):
                 continue
 
