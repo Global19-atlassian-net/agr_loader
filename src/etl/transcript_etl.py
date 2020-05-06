@@ -90,8 +90,7 @@ class TranscriptETL(ETL):
 
             MATCH (o:Transcript {primaryKey: row.curie})
             MATCH (chrm:Chromosome {primaryKey: row.chromosomeNumber})
-            
-            MERGE (a:Assembly {primaryKey: row.assembly})
+            MATCH (a:Assembly {primaryKey: row.assembly})
             
             CREATE (o)-[ochrm:LOCATED_ON]->(chrm)                
 

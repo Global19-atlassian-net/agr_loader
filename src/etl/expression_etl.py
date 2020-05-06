@@ -33,7 +33,7 @@ class ExpressionETL(ETL):
      USING PERIODIC COMMIT %s
         LOAD CSV WITH HEADERS FROM \'file:///%s\' AS row
     
-        MATCH (assay:MMOTerm:Ontology {primaryKey:row.assay})
+        MATCH (assay:MMOTerm {primaryKey:row.assay})
         MERGE (gej:BioEntityGeneExpressionJoin:Association {primaryKey:row.ei_uuid})
             ON CREATE SET gej.joinType = 'expression'
     
@@ -62,7 +62,7 @@ class ExpressionETL(ETL):
      USING PERIODIC COMMIT %s
         LOAD CSV WITH HEADERS FROM \'file:///%s\' AS row
         
-            MATCH (gej:BioEntityGeneExpressionJoin:Association {primaryKey:row.ei_uuid})  
+            MATCH (gej:BioEntityGeneExpressionJoin {primaryKey:row.ei_uuid})  
     
             MERGE (pubf:Publication {primaryKey:row.pubPrimaryKey})
                     ON CREATE SET pubf.pubModId = row.pubModId,
@@ -82,7 +82,7 @@ class ExpressionETL(ETL):
 
             // LOAD NODES
             MATCH (g:Gene {primaryKey:row.geneId}) 
-            MATCH (gej:BioEntityGeneExpressionJoin:Association {primaryKey:row.ei_uuid})  
+            MATCH (gej:BioEntityGeneExpressionJoin {primaryKey:row.ei_uuid})  
             MATCH (e:ExpressionBioEntity {primaryKey:row.ebe_uuid})
                 
             MERGE (g)-[ggej:ASSOCIATION]->(gej)     
@@ -99,11 +99,11 @@ class ExpressionETL(ETL):
 
             // LOAD NODES
             MATCH (g:Gene {primaryKey:row.geneId})
-            MATCH (assay:MMOTerm:Ontology {primaryKey:row.assay})
-            MATCH (otcct:GOTerm:Ontology {primaryKey:row.cellularComponentTermId})
+            MATCH (assay:MMOTerm {primaryKey:row.assay})
+            MATCH (otcct:GOTerm {primaryKey:row.cellularComponentTermId})
 
             MATCH (e:ExpressionBioEntity {primaryKey:row.ebe_uuid})
-            MATCH (gej:BioEntityGeneExpressionJoin:Association {primaryKey:row.ei_uuid})
+            MATCH (gej:BioEntityGeneExpressionJoin {primaryKey:row.ei_uuid})
 
                 MERGE (g)-[gex:EXPRESSED_IN]->(e)
                     ON CREATE SET gex.uuid = row.ei_uuid
@@ -126,11 +126,11 @@ class ExpressionETL(ETL):
 
             // LOAD NODES
             MATCH (g:Gene {primaryKey:row.geneId})
-            MATCH (assay:MMOTerm:Ontology {primaryKey:row.assay})
-            MATCH (otcct:GOTerm:Ontology {primaryKey:row.cellularComponentTermId})
+            MATCH (assay:MMOTerm {primaryKey:row.assay})
+            MATCH (otcct:GOTerm {primaryKey:row.cellularComponentTermId})
 
             MATCH (e:ExpressionBioEntity {primaryKey:row.ebe_uuid})
-            MATCH (gej:BioEntityGeneExpressionJoin:Association {primaryKey:row.ei_uuid})         
+            MATCH (gej:BioEntityGeneExpressionJoin {primaryKey:row.ei_uuid})         
                
                 MERGE (g)-[gex:EXPRESSED_IN]->(e)
                     ON CREATE SET gex.uuid = row.ei_uuid
@@ -155,13 +155,13 @@ class ExpressionETL(ETL):
 
             // LOAD NODES
             MATCH (g:Gene {primaryKey:row.geneId})
-            MATCH (assay:MMOTerm:Ontology {primaryKey:row.assay})
-            MATCH (otcct:GOTerm:Ontology {primaryKey:row.cellularComponentTermId})
+            MATCH (assay:MMOTerm {primaryKey:row.assay})
+            MATCH (otcct:GOTerm {primaryKey:row.cellularComponentTermId})
             MATCH (otast:Ontology {primaryKey:row.anatomicalStructureTermId})                 
                 WHERE NOT 'UBERONTerm' in LABELS(otast)
                     AND NOT 'FBCVTerm' in LABELS(otast)
             MATCH (e:ExpressionBioEntity {primaryKey:row.ebe_uuid})
-            MATCH (gej:BioEntityGeneExpressionJoin:Association {primaryKey:row.ei_uuid})   
+            MATCH (gej:BioEntityGeneExpressionJoin {primaryKey:row.ei_uuid})   
                 
             WITH g, e, gej, assay, otcct, otast, row WHERE NOT otast IS NULL AND NOT otcct IS NULL
                 
@@ -236,7 +236,7 @@ class ExpressionETL(ETL):
         LOAD CSV WITH HEADERS FROM \'file:///%s\' AS row
 
             MATCH (ebe:ExpressionBioEntity {primaryKey:row.ebe_uuid})  
-            MATCH (o:Ontology:UBERONTerm {primaryKey:row.aoUberonId})     
+            MATCH (o:UBERONTerm {primaryKey:row.aoUberonId})     
             MERGE (ebe)-[ebeo:ANATOMICAL_RIBBON_TERM]-(o) """
 
     uberonStage = """
@@ -244,7 +244,7 @@ class ExpressionETL(ETL):
         LOAD CSV WITH HEADERS FROM \'file:///%s\' AS row
 
             MATCH (ei:BioEntityGeneExpressionJoin {primaryKey:row.ei_uuid})  
-            MATCH (o:Ontology:UBERONTerm {primaryKey:row.uberonStageId})
+            MATCH (o:UBERONTerm {primaryKey:row.uberonStageId})
             
             MERGE (ei)-[eio:STAGE_RIBBON_TERM]-(o) """
 
@@ -253,7 +253,7 @@ class ExpressionETL(ETL):
         LOAD CSV WITH HEADERS FROM \'file:///%s\' AS row
 
             MATCH (ebe:ExpressionBioEntity {primaryKey:row.ebe_uuid}) 
-            MATCH (u:Ontology:UBERONTerm:Ontology {primaryKey:'UBERON:AnatomyOtherLocation'}) 
+            MATCH (u:UBERONTerm {primaryKey:'UBERON:AnatomyOtherLocation'}) 
             MERGE (ebe)-[ebeu:ANATOMICAL_RIBBON_TERM]-(u) """
 
     uberonStageOther = """
@@ -261,7 +261,7 @@ class ExpressionETL(ETL):
         LOAD CSV WITH HEADERS FROM \'file:///%s\' AS row
 
             MATCH (ei:BioEntityGeneExpressionJoin {primaryKey:row.ei_uuid})
-            MATCH (u:Ontology:UBERONTerm:Ontology {primaryKey:'UBERON:PostEmbryonicPreAdult'})
+            MATCH (u:UBERONTerm {primaryKey:'UBERON:PostEmbryonicPreAdult'})
             
             MERGE (ei)-[eiu:STAGE_RIBBON_TERM]-(u) """
 
