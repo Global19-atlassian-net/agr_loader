@@ -131,6 +131,7 @@ class TranscriptETL(ETL):
         query_list = [
             [TranscriptETL.tscript_alternate_id_query_template, commit_size, "transcript_gff3ID_data_" + sub_type.get_data_provider() + ".csv"],
             [TranscriptETL.tscript_query_template, commit_size, "transcript_data_" + sub_type.get_data_provider() + ".csv"],
+            [TranscriptETL.chromosomes_template, commit_size, "transcript_data_chromosome_" + sub_type.get_data_provider() + ".csv"],
             [TranscriptETL.genomic_locations_template, commit_size, "transcript_genomic_locations_" + sub_type.get_data_provider() + ".csv"],
             [TranscriptETL.exon_query_template, commit_size, "exon_data_" + sub_type.get_data_provider() + ".csv"],
             [TranscriptETL.exon_genomic_locations_template, commit_size, "exon_genomic_location_data_" + sub_type.get_data_provider() + ".csv"]
@@ -267,11 +268,11 @@ class TranscriptETL(ETL):
 
                 if counter == batch_size:
                     counter = 0
-                    yield [geneMaps, tscriptMaps, tscriptMaps, exonMaps, exonMaps]
+                    yield [geneMaps, tscriptMaps, tscriptMaps, tscriptMaps, exonMaps, exonMaps]
                     tscriptMaps = []
                     geneMaps = []
                     exonMaps = []
 
 
             if counter > 0:
-                yield [geneMaps, tscriptMaps, tscriptMaps, exonMaps, exonMaps]
+                yield [geneMaps, tscriptMaps, tscriptMaps, tscriptMaps, exonMaps, exonMaps]
