@@ -19,7 +19,6 @@ class PhenoTypeETL(ETL):
 
             MATCH (allele:Allele {primaryKey:row.primaryId})
             
-
             MERGE (p:Phenotype {primaryKey:row.phenotypeStatement})
                 ON CREATE SET p.phenotypeStatement = row.phenotypeStatement
 

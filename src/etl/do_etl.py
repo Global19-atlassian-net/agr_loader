@@ -52,8 +52,8 @@ class DOETL(ETL):
         USING PERIODIC COMMIT %s
         LOAD CSV WITH HEADERS FROM \'file:///%s\' AS row
 
-            MATCH (d1:DOTerm:Ontology {primaryKey:row.primary_id})
-            MATCH (d2:DOTerm:Ontology {primaryKey:row.primary_id2})
+            MATCH (d1:DOTerm {primaryKey:row.primary_id})
+            MATCH (d2:DOTerm {primaryKey:row.primary_id2})
             MERGE (d1)-[aka:IS_A]->(d2) """
             
     xrefs_template = """

@@ -86,7 +86,7 @@ class AffectedGenomicModelETL(ETL):
      USING PERIODIC COMMIT %s
             LOAD CSV WITH HEADERS FROM \'file:///%s\' AS row
 
-            MATCH (feature:Feature:Allele {primaryKey:row.componentId})
+            MATCH (feature:Allele {primaryKey:row.componentId})
             MATCH (agm:AffectedGenomicModel {primaryKey:row.primaryId})
             
             MERGE (agm)-[agmf:MODEL_COMPONENT]-(feature)

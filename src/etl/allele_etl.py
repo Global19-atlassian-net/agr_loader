@@ -134,7 +134,7 @@ class AlleleETL(ETL):
         USING PERIODIC COMMIT %s
         LOAD CSV WITH HEADERS FROM \'file:///%s\' AS row
 
-            MATCH (f:Allele:Feature {primaryKey:row.data_id})
+            MATCH (f:Allele {primaryKey:row.data_id})
 
             MERGE (second:SecondaryId {primaryKey:row.secondary_id})
                 SET second.name = row.secondary_id
@@ -145,7 +145,7 @@ class AlleleETL(ETL):
         USING PERIODIC COMMIT %s
         LOAD CSV WITH HEADERS FROM \'file:///%s\' AS row
 
-            MATCH (a:Allele:Feature {primaryKey:row.data_id})
+            MATCH (a:Allele {primaryKey:row.data_id})
 
             MERGE(syn:Synonym {primaryKey:row.synonym})
                 SET syn.name = row.synonym

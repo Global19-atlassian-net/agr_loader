@@ -24,7 +24,7 @@ class DiseaseETL(ETL):
         LOAD CSV WITH HEADERS FROM \'file:///%s\' AS row
             // GET PRIMARY DATA OBJECTS
 
-            MATCH (d:DOTerm:Ontology {primaryKey:row.doId})
+            MATCH (d:DOTerm {primaryKey:row.doId})
             MATCH (agm:AffectedGenomicModel {primaryKey:row.primaryId})
             
             CALL apoc.create.relationship(d, row.relationshipType, {}, agm) yield rel
@@ -63,8 +63,8 @@ class DiseaseETL(ETL):
         LOAD CSV WITH HEADERS FROM \'file:///%s\' AS row
             // GET PRIMARY DATA OBJECTS
 
-            MATCH (d:DOTerm:Ontology {primaryKey:row.doId})
-            MATCH (allele:Allele:Feature {primaryKey:row.primaryId})
+            MATCH (d:DOTerm {primaryKey:row.doId})
+            MATCH (allele:Allele {primaryKey:row.primaryId})
             
             CALL apoc.create.relationship(d, row.relationshipType, {}, allele) yield rel
                         SET rel.uuid = row.diseaseUniqueKey 
@@ -103,7 +103,7 @@ class DiseaseETL(ETL):
         USING PERIODIC COMMIT %s
         LOAD CSV WITH HEADERS FROM \'file:///%s\' AS row
 
-            MATCH (d:DOTerm:Ontology {primaryKey:row.doId})
+            MATCH (d:DOTerm {primaryKey:row.doId})
             MATCH (gene:Gene {primaryKey:row.primaryId})
             
             CALL apoc.create.relationship(d, row.relationshipType, {}, gene) yield rel
@@ -140,8 +140,8 @@ class DiseaseETL(ETL):
         USING PERIODIC COMMIT %s
         LOAD CSV WITH HEADERS FROM \'file:///%s\' AS row
 
-            MATCH (o:Ontology:ECOTerm {primaryKey:row.ecode})
-            MATCH (pubjk:PublicationJoin:Association {primaryKey:row.pecjPrimaryKey})
+            MATCH (o:ECOTerm {primaryKey:row.ecode})
+            MATCH (pubjk:PublicationJoin {primaryKey:row.pecjPrimaryKey})
             MERGE (pubjk)-[daecode1g:ASSOCIATION {uuid:row.pecjPrimaryKey}]->(o)
                 
     """
@@ -150,7 +150,7 @@ class DiseaseETL(ETL):
     
         USING PERIODIC COMMIT %s
             LOAD CSV WITH HEADERS FROM \'file:///%s\' AS row
-            MATCH (dga:Association:DiseaseEntityJoin {primaryKey:row.diseaseUniqueKey})
+            MATCH (dga:DiseaseEntityJoin {primaryKey:row.diseaseUniqueKey})
         
             MATCH (diseaseWith:Gene {primaryKey:row.withD})
             MERGE (dga)-[dgaw:FROM_ORTHOLOGOUS_GENE]-(diseaseWith)
@@ -162,7 +162,7 @@ class DiseaseETL(ETL):
         USING PERIODIC COMMIT %s
             LOAD CSV WITH HEADERS FROM \'file:///%s\' AS row
             MATCH (n:Gene {primaryKey:row.pgeId})
-            MATCH (d:PublicationJoin:Association {primaryKey:row.pecjPrimaryKey})
+            MATCH (d:PublicationJoin {primaryKey:row.pecjPrimaryKey})
             
             MERGE (d)-[dgaw:PRIMARY_GENETIC_ENTITY]-(n)
 
@@ -173,7 +173,7 @@ class DiseaseETL(ETL):
         USING PERIODIC COMMIT %s
             LOAD CSV WITH HEADERS FROM \'file:///%s\' AS row
             MATCH (n:Allele {primaryKey:row.pgeId})
-            MATCH (d:PublicationJoin:Association {primaryKey:row.pecjPrimaryKey})
+            MATCH (d:PublicationJoin {primaryKey:row.pecjPrimaryKey})
 
             MERGE (d)-[dgaw:PRIMARY_GENETIC_ENTITY]-(n)
 

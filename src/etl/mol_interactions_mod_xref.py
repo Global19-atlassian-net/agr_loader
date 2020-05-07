@@ -21,7 +21,7 @@ class MolInteractionsModXrefETL(ETL):
             LOAD CSV WITH HEADERS FROM \'file:///%s\' AS row
 
             MATCH (o:Gene {primaryKey:row.dataId})
-            MATCH (c:CrossReference:Identifier {primaryKey:row.primaryKey})
+            MATCH (c:CrossReference {primaryKey:row.primaryKey})
 
             MERGE (o)-[oc:CROSS_REFERENCE]-(c)
 

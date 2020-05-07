@@ -15,7 +15,7 @@ class ExpressionRibbonETL(ETL):
                 USING PERIODIC COMMIT %s
                 LOAD CSV WITH HEADERS FROM \'file:///%s\' AS row
                    MATCH (ebe:ExpressionBioEntity) where ebe.primaryKey = row.ebe_id
-                   MATCH (goTerm:GOTerm:Ontology) where goTerm.primaryKey = row.go_id
+                   MATCH (goTerm:GOTerm) where goTerm.primaryKey = row.go_id
 
                    MERGE (ebe)-[ebego:CELLULAR_COMPONENT_RIBBON_TERM]-(goTerm)
                    """
@@ -24,7 +24,7 @@ class ExpressionRibbonETL(ETL):
                 USING PERIODIC COMMIT %s
                 LOAD CSV WITH HEADERS FROM \'file:///%s\' AS row
                    MATCH (ebe:ExpressionBioEntity) where ebe.primaryKey = row.ebe_id
-                   MATCH (goTerm:GOTerm:Ontology) where goTerm.primaryKey = row.go_id
+                   MATCH (goTerm:GOTerm) where goTerm.primaryKey = row.go_id
 
                    MERGE (ebe)-[ebego:CELLULAR_COMPONENT_RIBBON_TERM]-(goTerm)
                    """

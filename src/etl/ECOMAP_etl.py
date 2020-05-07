@@ -14,7 +14,7 @@ class ECOMAPETL(ETL):
         USING PERIODIC COMMIT %s
         LOAD CSV WITH HEADERS FROM \'file:///%s\' AS row
 
-        MATCH (e:ECOTerm:Ontology {primaryKey: row.ecoId})
+        MATCH (e:ECOTerm {primaryKey: row.ecoId})
             SET e.displaySynonym = row.threeLetterCode
         
         """

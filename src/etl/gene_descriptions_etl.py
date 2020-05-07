@@ -48,8 +48,8 @@ class GeneDescriptionsETL(ETL):
         """
 
     GetGeneDiseaseAnnotQuery = """
-        MATCH (d:DOTerm:Ontology)-[r:IS_MARKER_FOR|IS_IMPLICATED_IN|IS_MODEL_OF]-(g:Gene)-[:ASSOCIATION]->
-        (dga:Association:DiseaseEntityJoin)-[:ASSOCIATION]->(d) 
+        MATCH (d:DOTerm)-[r:IS_MARKER_FOR|IS_IMPLICATED_IN|IS_MODEL_OF]-(g:Gene)-[:ASSOCIATION]->
+        (dga:DiseaseEntityJoin)-[:ASSOCIATION]->(d) 
         WHERE g.dataProvider = {parameter}
         MATCH (dga)-[:EVIDENCE]->(pec:PublicationJoin)-[:ASSOCIATION]-(e:ECOTerm)
         RETURN DISTINCT g.primaryKey AS geneId, g.symbol AS geneSymbol, d.primaryKey AS TermId, e.primaryKey AS ECode, 
@@ -57,8 +57,8 @@ class GeneDescriptionsETL(ETL):
         """
 
     GetFeatureDiseaseAnnotQuery = """
-        MATCH (d:DOTerm:Ontology)-[r:IS_MARKER_FOR|IS_IMPLICATED_IN|IS_MODEL_OF]-(f)-[:ASSOCIATION]->
-        (dga:Association:DiseaseEntityJoin)-[:ASSOCIATION]->(d)
+        MATCH (d:DOTerm)-[r:IS_MARKER_FOR|IS_IMPLICATED_IN|IS_MODEL_OF]-(f)-[:ASSOCIATION]->
+        (dga:DiseaseEntityJoin)-[:ASSOCIATION]->(d)
         WHERE f.dataProvider = {parameter}
         MATCH (f)<-[:IS_ALLELE_OF]->(g:Gene)
         MATCH (dga)-[:EVIDENCE]->(pec:PublicationJoin)-[:ASSOCIATION]-(e:ECOTerm)
@@ -67,7 +67,7 @@ class GeneDescriptionsETL(ETL):
         """
 
     GetFilteredHumanOrthologsQuery = """
-        MATCH (g2)<-[orth:ORTHOLOGOUS]-(g:Gene)-[:ASSOCIATION]->(ogj:Association:OrthologyGeneJoin)-[:ASSOCIATION]->
+        MATCH (g2)<-[orth:ORTHOLOGOUS]-(g:Gene)-[:ASSOCIATION]->(ogj:OrthologyGeneJoin)-[:ASSOCIATION]->
         (g2:Gene)
         WHERE ogj.joinType = 'orthologous' AND g.dataProvider = {parameter} AND g2.taxonId ='NCBITaxon:9606' AND 
         orth.strictFilter = true
@@ -77,8 +77,8 @@ class GeneDescriptionsETL(ETL):
         """
 
     GetDiseaseViaOrthologyQuery = """
-        MATCH (d:DOTerm:Ontology)-[r:IMPLICATED_VIA_ORTHOLOGY]-(g:Gene)-[:ASSOCIATION]->
-        (dga:Association:DiseaseEntityJoin)-[:ASSOCIATION]->(d)
+        MATCH (d:DOTerm)-[r:IMPLICATED_VIA_ORTHOLOGY]-(g:Gene)-[:ASSOCIATION]->
+        (dga:DiseaseEntityJoin)-[:ASSOCIATION]->(d)
         WHERE g.dataProvider = {parameter}
         MATCH (dga)-[:FROM_ORTHOLOGOUS_GENE]-(orthGene:Gene)
         WHERE orthGene.taxonId = 'NCBITaxon:9606'
@@ -86,7 +86,7 @@ class GeneDescriptionsETL(ETL):
         """
 
     GetOntologyPairs = """
-        MATCH (term1:{}Term:Ontology)-[r:IS_A|PART_OF]->(term2:{}Term:Ontology)
+        MATCH (term1:{}Term)-[r:IS_A|PART_OF]->(term2:{}Term)
         RETURN term1.primaryKey, term1.name, term1.type, term1.isObsolete, term2.primaryKey, term2.name, term2.type, 
         term2.isObsolete, type(r) AS rel_type
         """

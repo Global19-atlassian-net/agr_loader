@@ -20,7 +20,7 @@ class ExpressionRibbonOtherETL(ETL):
             USING PERIODIC COMMIT %s
             LOAD CSV WITH HEADERS FROM \'file:///%s\' AS row
                 MATCH (ebe:ExpressionBioEntity {primaryKey:row.ebe_id})
-                MATCH (goterm:GOTerm:Ontology {primaryKey:'GO:otherLocations'})
+                MATCH (goterm:GOTerm {primaryKey:'GO:otherLocations'})
                 MERGE (ebe)-[ebegoccother:CELLULAR_COMPONENT_RIBBON_TERM]-(goterm)
     """
 

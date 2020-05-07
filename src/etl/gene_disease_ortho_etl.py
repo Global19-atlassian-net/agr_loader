@@ -17,7 +17,7 @@ class GeneDiseaseOrthoETL(ETL):
                 USING PERIODIC COMMIT %s
                 LOAD CSV WITH HEADERS FROM \'file:///%s\' AS row
                 
-                MATCH (d:DOTerm:Ontology {primaryKey:row.doId}),
+                MATCH (d:DOTerm {primaryKey:row.doId}),
                   (gene:Gene {primaryKey:row.primaryId}),
                   (fromGene:Gene {primaryKey:row.fromGeneId}),
                   (pub:Publication {primaryKey:"MGI:6194238"}),

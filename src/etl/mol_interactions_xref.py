@@ -15,14 +15,14 @@ class MolInteractionsXrefETL(ETL):
         LOAD CSV WITH HEADERS FROM \'file:///%s\' AS row WITH row LIMIT 0
 
         // This needs to be a MERGE below.
-        MATCH (o:InteractionGeneJoin:Association {primaryKey:row.reference_uuid}) """ + ETLHelper.get_cypher_xref_tuned_text()
+        MATCH (o:InteractionGeneJoin {primaryKey:row.reference_uuid}) """ + ETLHelper.get_cypher_xref_tuned_text()
 
     xrefs_relationships_template = """
     
         USING PERIODIC COMMIT %s
             LOAD CSV WITH HEADERS FROM \'file:///%s\' AS row
 
-            MATCH (o:InteractionGeneJoin:Association {primaryKey:row.reference_uuid})
+            MATCH (o:InteractionGeneJoin {primaryKey:row.reference_uuid})
             MATCH (c:CrossReference {primaryKey:row.primaryKey})
             
             MERGE (o)-[oc:CROSS_REFERENCE]-(c)

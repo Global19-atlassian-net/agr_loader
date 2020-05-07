@@ -14,7 +14,7 @@ class GOAnnotETL(ETL):
         LOAD CSV WITH HEADERS FROM \'file:///%s\' AS row
         
             MATCH (g:Gene {primaryKey:row.gene_id})
-            MATCH (go:GOTerm:Ontology {primaryKey:row.go_id})
+            MATCH (go:GOTerm {primaryKey:row.go_id})
             CREATE (g)-[:ANNOTATED_TO]->(go) """
 
     def __init__(self, config):

@@ -49,7 +49,7 @@ class ConstructETL(ETL):
 
             MATCH (f:Construct {primaryKey:row.data_id})
 
-            MERGE (second:SecondaryId {primaryKey:row.secondary_id})
+            MERGE (second:SecondaryId:Identifier {primaryKey:row.secondary_id})
                 SET second.name = row.secondary_id
             MERGE (f)-[aka1:ALSO_KNOWN_AS]->(second) """
 
