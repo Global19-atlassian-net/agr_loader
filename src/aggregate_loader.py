@@ -7,6 +7,7 @@ import multiprocessing
 import time
 import argparse
 import coloredlogs
+from agr-datafile-manager import DataFileManager
 
 from etl import ETL, MIETL, DOETL, BGIETL, ConstructETL, ExpressionAtlasETL, GenericOntologyETL, \
                 ECOMAPETL, AlleleETL, VariationETL, SequenceTargetingReagentETL, \

@@ -4,6 +4,7 @@ import logging
 import os
 import zipfile
 
+
 class ZIPFile():
     """ZIP File"""
 

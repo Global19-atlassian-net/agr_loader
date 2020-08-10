@@ -10,11 +10,11 @@ import urllib3
 from cerberus import Validator
 
 from files import JSONFile
-from loader_common import Singleton, ContextInfo
+from agr-datafile-manager import loader_common
 from .data_type_config import DataTypeConfig
 
 
-class DataFileManager(metaclass=Singleton):
+class DataFileManagerx(metaclass=Singleton):
     """Manages files"""
 
     logger = logging.getLogger(__name__)

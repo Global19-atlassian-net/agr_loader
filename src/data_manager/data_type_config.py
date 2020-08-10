@@ -8,7 +8,7 @@ from transactors import FileTransactor
 from .sub_type_config import SubTypeConfig
 
 
-class DataTypeConfig():
+class DataTypeConfigx():
     """Data Type Config"""
 
     logger = logging.getLogger(__name__)
